@@ -1,4 +1,4 @@
-export const isArrayCheck = (isArr) => {
+export const isArrayCheck = (isArr: any) => {
   if (Array.isArray(isArr)) {
     return true;
   }

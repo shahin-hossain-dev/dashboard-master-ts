@@ -5,7 +5,7 @@ import { Table as AntTable, Input, message, Space } from "antd";
 import { useEffect, useMemo, useRef, useState } from "react";
 import Button from "./Button";
 
-const Table = (props) => {
+const Table = (props: any) => {
   const {
     dataSource,
     columns,
@@ -36,10 +36,10 @@ const Table = (props) => {
   //selection
   const [selectRowKeys, setSelectRowKeys] = useState([]);
   const [search, setSearch] = useState("");
-  const searchTimeoutRef = useRef(null);
+  const searchTimeoutRef = useRef<number | null>(null);
 
   //load server page
-  const loadPage = async (opts = {}) => {
+  const loadPage = async (opts = {} as any) => {
     if (!serverMode) return;
     setLoading(true);
 
@@ -78,7 +78,7 @@ const Table = (props) => {
         title: "Actions",
         key: "actions",
         fixed: "right",
-        render: (_, record) => (
+        render: (_: any, record: any) => (
           <Space size={"middle"}> {actions(record)}</Space>
         ),
       });
@@ -87,7 +87,7 @@ const Table = (props) => {
     return baseColumn;
   }, [columns, actions]);
 
-  const handleTableChange = (pagination) => {
+  const handleTableChange = (pagination: any) => {
     const newPage = pagination?.current ?? 1;
     const newPageSize = pagination?.pageSize ?? pageSize;
 
@@ -104,7 +104,7 @@ const Table = (props) => {
       ? {
           pageSize,
           showSizeChanger: true,
-          showTotal: (t) => `Total ${t} Items`,
+          showTotal: (t: any) => `Total ${t} Items`,
         }
       : false;
 
@@ -116,16 +116,16 @@ const Table = (props) => {
   const rowSelection = selectable
     ? {
         selectRowKeys,
-        onChange: (keys, rows) => {
+        onChange: (keys: any, rows: any) => {
           setSelectRowKeys(keys);
           onSelectionChange?.(keys, rows);
         },
       }
     : undefined;
 
-  const handleSearchChange = (val) => {
+  const handleSearchChange = (val: string) => {
     setSearch(val);
-    window.clearTimeout(searchTimeoutRef.current);
+    window.clearTimeout(searchTimeoutRef.current as number);
     searchTimeoutRef.current = window.setTimeout(() => {
       if (serverMode) {
         setPage(1);
@@ -137,7 +137,7 @@ const Table = (props) => {
           setTotal(isArrayCheck(dataSource) ? dataSource.length : 0);
           return;
         }
-        const filtered = (dataSource || []).filter((row) => {
+        const filtered = (dataSource || []).filter((row: any) => {
           const values = Object.values(row);
           const items = values.some(
             (cell) =>
